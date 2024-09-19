@@ -1,2 +1,2 @@
 # flexplan_backend
-Just a backend project I am making to learn C#. Pay me no mind.
+This is the backend for a workout app. Just a project I am making to learn C#. Pay me no mind.
