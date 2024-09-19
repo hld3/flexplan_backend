@@ -1,0 +1,6 @@
+@flexplan_backend_HostAddress = http://localhost:5237
+
+GET {{flexplan_backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
