@@ -1,3 +1,5 @@
+using FlexPlan.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-DatabaseSetup.SetupAndTestDatabase(connectionString);
+DatabaseConnectionFactory.Initialize(connectionString);
 
 var app = builder.Build();
 
