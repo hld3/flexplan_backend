@@ -11,7 +11,7 @@ namespace FlexPlan.Repository
             using var connection = DatabaseConnectionFactory.CreateConnection();
             var command = connection.CreateCommand();
             command.CommandText = @"
-                INSERT INTO Exercises (Name, Description, Instructions, Equipment, MuscleGroup, VideoUrl, Category)
+                INSERT INTO Exercise (Name, Description, Instructions, Equipment, MuscleGroup, VideoUrl, Category)
                 VALUES ($name, $description, $instructions, $equipment, $muscleGroup, $videoUrl, $category);
                 SELECT last_insert_rowid();
             ";
@@ -34,7 +34,7 @@ namespace FlexPlan.Repository
             var command = connection.CreateCommand();
             command.CommandText = @"
                 SELECT Id, Name, Description, Instructions, Equipment, MuscleGroup, VideoUrl, Category
-                FROM Exercises
+                FROM Exercise
                 WHERE Id = $id;
             ";
             command.Parameters.AddWithValue("$id", id);
@@ -101,7 +101,7 @@ namespace FlexPlan.Repository
             using var connection = DatabaseConnectionFactory.CreateConnection();
             var command = connection.CreateCommand();
             command.CommandText = @"
-                DELETE FROM Exercises
+                DELETE FROM Exercise
                 WHERE Id = $id;
             ";
             command.Parameters.AddWithValue("$id", id);
