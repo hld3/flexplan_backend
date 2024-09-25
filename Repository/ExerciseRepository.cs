@@ -48,6 +48,68 @@ namespace FlexPlan.Repository
             return null;
         }
 
+        public async Task<IEnumerable<Exercise>> GetAllExercisesAsync()
+        {
+            var exercises = new List<Exercise>();
+
+            using var connection = DatabaseConnectionFactory.CreateConnection();
+            var command = connection.CreateCommand();
+            command.CommandText = @"
+                SELECT  Id, Name, Description, Instructions, Equipment, MuscleGroup, VideoUrl, Category
+                FROM exercises;
+            ";
+
+            using var reader = await command.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                exercises.Add(MapReaderToExercise(reader));
+            }
+            return exercises;
+        }
+
+        public async Task<bool> UpdateExerciseAsync(Exercise exercise)
+        {
+            using var connection = DatabaseConnectionFactory.CreateConnection();
+            var command = connection.CreateCommand();
+            command.CommandText = @"
+                UPDATE Exercise
+                SET Name = $name,
+                    Description = $description,
+                    Instructions = $instructions,
+                    Equipment = $equipment, 
+                    MuscleGroup = $muscleGroup,
+                    VideoUrl = $videoUrl,
+                    Category = $category
+                WHERE Id = $id;
+            ";
+
+            command.Parameters.AddWithValue("$id", exercise.Id);
+            command.Parameters.AddWithValue("$name", exercise.Name);
+            command.Parameters.AddWithValue("$description", exercise.Description);
+            command.Parameters.AddWithValue("$instructions", exercise.Instructions);
+            command.Parameters.AddWithValue("$equipment", exercise.Equipment);
+            command.Parameters.AddWithValue("$muscleGroup", exercise.MuscleGroup);
+            command.Parameters.AddWithValue("$videoUrl", exercise.VideoUrl);
+            command.Parameters.AddWithValue("$category", exercise.Category);
+
+            var rowsAffected = await command.ExecuteNonQueryAsync();
+            return rowsAffected > 0;
+        }
+
+        public async Task<bool> DeleteExerciseAsync(int id)
+        {
+            using var connection = DatabaseConnectionFactory.CreateConnection();
+            var command = connection.CreateCommand();
+            command.CommandText = @"
+                DELETE FROM Exercises
+                WHERE Id = $id;
+            ";
+            command.Parameters.AddWithValue("$id", id);
+
+            var rowsAffected = await command.ExecuteNonQueryAsync();
+            return rowsAffected > 0;
+        }
+
         private Exercise MapReaderToExercise(SqliteDataReader reader)
         {
             return new Exercise
