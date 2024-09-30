@@ -15,7 +15,7 @@ namespace FlexPlan.Data
                     Equipment TEXT,
                     MuscleGroup TEXT,
                     VideoUrl TEXT,
-                    Category TEXT NOT NULL,
+                    Category TEXT NOT NULL
                 );
             ";
             command.ExecuteNonQuery();

@@ -56,7 +56,7 @@ namespace FlexPlan.Repository
             var command = connection.CreateCommand();
             command.CommandText = @"
                 SELECT  Id, Name, Description, Instructions, Equipment, MuscleGroup, VideoUrl, Category
-                FROM exercises;
+                FROM Exercise;
             ";
 
             using var reader = await command.ExecuteReaderAsync();
