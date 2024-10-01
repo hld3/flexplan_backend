@@ -33,7 +33,7 @@ namespace FlexPlan.Tests.Repository
         }
 
         [Fact]
-        public async Task AddExerciseAsync_Should_Add_Exercise()
+        public async Task Add_And_GetExerciseAsync_Should_Add_And_Get_Exercise()
         {
             var exercise = new Exercise
             {
@@ -57,6 +57,54 @@ namespace FlexPlan.Tests.Repository
             Assert.Equal(exercise.MuscleGroup, retrievedExercise.MuscleGroup);
             Assert.Equal(exercise.VideoUrl, retrievedExercise.VideoUrl);
             Assert.Equal(exercise.Category, retrievedExercise.Category);
+        }
+
+        [Fact]
+        public async Task UpdateExerciseAsync_Should_Update_Exercise()
+        {
+            var exercise = new Exercise
+            {
+                Name = "Test Exercise",
+                Description = "Test Description",
+                Instructions = "Test Instructions",
+                Equipment = "None",
+                MuscleGroup = "Full Body",
+                VideoUrl = "http://example.com",
+                Category = ExerciseCategory.Aerobic
+            };
+
+            var id = await _exerciseRepository.AddExerciseAsync(exercise);
+
+            exercise.Id = id;
+            exercise.Name = "Updated Name";
+            bool result = await _exerciseRepository.UpdateExerciseAsync(exercise);
+            Assert.True(result);
+
+            Exercise updatedExercise = await _exerciseRepository.GetExerciseByIdAsync(id);
+            Assert.NotNull(updatedExercise);
+            Assert.Equal(updatedExercise.Name, exercise.Name);
+        }
+
+        [Fact]
+        public async Task DeleteExerciseAsync()
+        {
+            var exercise = new Exercise
+            {
+                Name = "Test Exercise",
+                Description = "Test Description",
+                Instructions = "Test Instructions",
+                Equipment = "None",
+                MuscleGroup = "Full Body",
+                VideoUrl = "http://example.com",
+                Category = ExerciseCategory.Aerobic
+            };
+
+            var id = await _exerciseRepository.AddExerciseAsync(exercise);
+            bool result = await _exerciseRepository.DeleteExerciseAsync(id);
+            Assert.True(result);
+
+            Exercise updatedExercise = await _exerciseRepository.GetExerciseByIdAsync(id);
+            Assert.Null(updatedExercise);
         }
 
         private void InitializeDatabase()
