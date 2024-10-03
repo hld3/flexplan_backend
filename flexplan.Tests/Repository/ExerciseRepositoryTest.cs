@@ -6,17 +6,17 @@ using Xunit.Abstractions;
 
 namespace FlexPlan.Tests.Repository
 {
-    public class ExerciseRepositoryTests : IDisposable
+    public class ExerciseRepositoryTest : IDisposable
     {
         private readonly SqliteConnection _connection;
         private readonly IExerciseRepository _exerciseRepository;
         private readonly ITestOutputHelper _output;
 
-        public ExerciseRepositoryTests(ITestOutputHelper output)
+        public ExerciseRepositoryTest(ITestOutputHelper output)
         {
             var connectionString = new SqliteConnectionStringBuilder
             {
-                DataSource = "file:InMemoryDb?mode=memory&cache=shared",
+                DataSource = "file:RepositoryTests?mode=memory&cache=shared",
                 Mode = SqliteOpenMode.Memory,
                 Cache = SqliteCacheMode.Shared,
                 // Uri = true // does not contain a definition for Uri.
